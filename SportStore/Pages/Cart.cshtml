@@ -1,0 +1,50 @@
+﻿@page
+@model CartModel
+
+<!-- Заголовок страницы -->
+<h2>Ваша корзина</h2>
+
+<!-- Таблица для отображения содержимого корзины -->
+<table class="table table-bordered table-striped">
+    <thead>
+        <!-- Заголовки столбцов таблицы -->
+        <tr>
+            <th>Количество</th>
+            <th>Продукт</th>
+            <th class="text-right">Цена за ед.</th>
+            <th class="text-right">Итого</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Перебор элементов корзины и отображение каждого элемента в таблице -->
+        @foreach (var line in Model.Cart.Lines)
+        {
+            <tr>
+                <!-- Количество товара в строке -->
+                <td class="text-center">@line.Quantity</td>
+                <!-- Наименование продукта -->
+                <td class="text-left">@line.Product.Name</td>
+                <!-- Цена за единицу продукта -->
+                <td class="text-right">@line.Product.Price.ToString("c")</td>
+                <!-- Итоговая стоимость для данной строки -->
+                <td class="text-right">
+                    @((line.Quantity * line.Product.Price).ToString())
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <!-- Итоговая строка таблицы -->
+        <tr>
+            <!-- Подведение итога по всем товарам -->
+            <td colspan="3" class="text-right">Итого:</td>
+            <!-- Отображение общей суммы заказа -->
+            <td class="text-right">@Model.Cart.ComputeTotalValue().ToString("c")</td>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- Кнопка для продолжения покупок -->
+<div class="text-center">
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Продолжить покупки</a>
+</div>
